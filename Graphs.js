@@ -2417,5 +2417,69 @@ function BFS(s, adj, V){
     return [fn, level]
 }
 
+/**
+ * @param {number[][]} grid
+ * @return {number}
+ */
+var orangesRotting = function(grid) {
+    let n = grid.length;
+    let m = grid[0].length;
+    let freshCount = 0;
+    let q = [];
+
+    for(let i =0; i<n; i++){
+        for(let j = 0; j<m; j++){
+            if(grid[i][j] == 2){
+                q.push([i,j])
+            }
+
+            if(grid[i][j] == 1){
+                freshCount++
+            }
+        }
+    }
+
+    if(freshCount == 0) return 0
+
+    let directions = [[0,1], [0,-1], [1,0], [-1,0]]
+
+    let min = 0;
+
+    while(q.length){
+        let len = q.length;
+
+        while(len--){
+            let [i,j] = q.shift();
+            
+            for(dir of directions){
+                let i_ = i+dir[0];
+                let j_ = j+dir[1];
+
+                if(isValid(i_, j_, n, m) && grid[i_][j_]==1){
+                    grid[i_][j_] = 2;
+                    freshCount--;
+                    q.push([i_, j_]);
+                
+                }
+                
+            }
+
+        }
+
+        if(q.length !== 0){
+            min++
+        }
+    }
+
+    if(freshCount == 0) return min;
+
+    return -1
+
+};
+
+function isValid(i, j, n, m){
+    return i>=0 && i<n && j>=0 && j<m
+}
+
 
 

@@ -1712,3 +1712,67 @@ while (j < nums.length) {
 
     j++;
 }
+
+// var countCommas = function(n) {
+
+//     let prefix = [];
+
+//     let max = 999999;
+//     let min = 999;
+//     prefix[0] = (max - min)
+    
+//     max = genNext(max)
+//     min = genNext(min)
+//     let idx = 1;
+//     for(let i =2; i<5; i++){
+        
+//         prefix[idx] = ((max - min) * i) + prefix[idx-1] ;
+
+//         max = genNext(max)
+//         min = genNext(min)
+//         idx++
+//     }
+
+//     let digitCount = countDigit(n)
+    
+    
+//     if(n<999) return 0;
+
+//     if(digitCount == 16){
+//         return ((n - 999999999999999) * 5) + prefix[3]
+//     }
+
+//     if(digitCount > 12){
+//         return ((n - 999999999999) * 4) + prefix[2]
+//     }
+
+//     if(digitCount > 9){
+//         return ((n - 999999999) * 3) + prefix[1]
+//     }
+
+//     if(digitCount > 6){
+//         return ((n - 999999) * 2) + prefix[0];
+//     }
+
+//     return ((n - 999))
+// };
+
+// function genNext(n){
+
+//     for(let i = 0; i<3; i++){
+//         n = (n * 10) + 9
+//     }
+
+//     return n
+// }
+
+// function countDigit(n){
+//     let count = 0;
+
+//     while(n>0){
+//         n = Math.floor(n/10)
+//         count++
+//     }
+
+//     return count
+// }

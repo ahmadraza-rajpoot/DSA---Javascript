@@ -2481,5 +2481,50 @@ function isValid(i, j, n, m){
     return i>=0 && i<n && j>=0 && j<m
 }
 
+/**
+ * @param {number[][]} isWater
+ * @return {number[][]}
+ */
+var highestPeak = function(isWater) {
+    let n = isWater.length;
+    let m = isWater[0].length;
+    let directions = [[1,0], [-1,0], [0,1], [0, -1]]
+    let result = Array.from({length:n}, ()=> new Array(m).fill(-1));
+    let q = [];
+    
+    for(let i = 0; i<n; i++){
+        for(let j = 0; j<m; j++){
+            if(isWater[i][j] == 1){
+                result[i][j] = 0;
+                q.push([i,j])
+            }
+        }
+    }
+
+    let front = 0;
+    while(front < q.length){
+        
+        let [i, j] = q[front++]
+        let val = result[i][j]
+
+        for(let dir of directions){
+            let i_ = i + dir[0];
+            let j_ = j + dir[1];
+
+            if(isValid(i_, j_, n ,m) && result[i_][j_] == -1){
+                result[i_][j_] = val+1;
+                q.push([i_, j_]);
+            }
+        } 
+        
+    }
+
+    return result;
+};
+
+function isValid(i, j, n, m){
+    return i>=0 && i<n && j>=0 && j<m
+}
+
 
 

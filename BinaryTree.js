@@ -708,3 +708,31 @@ var createBinaryTree = function (nodes) {
     
     return root
 };
+
+
+var averageOfSubtree = function(root) {
+    let result = 0;
+
+    function postOrder(root){
+        if(!root) return [0,0];
+
+        let leftSide = postOrder(root.left);
+        let rightSide = postOrder(root.right);
+
+        let totalSum = leftSide[0] + rightSide[0] + root.val;
+        let totalCount = leftSide[1] + rightSide[1] + 1;
+
+        let avg = Math.floor(totalSum/totalCount)
+
+        if(avg == root.val){
+            result++
+        } 
+
+        return [totalSum, totalCount]
+    }
+
+
+    postOrder(root)
+
+    return result;
+};

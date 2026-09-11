@@ -376,3 +376,42 @@ function transform(board){
 //     return true;
 
 // }
+
+/**
+ * @param {number[]} digits
+ * @return {number}
+ */
+var totalNumbers = function(digits) {
+  let n = digits.length;
+  let set = new Set();
+  let visited = new Array(n).fill(false)
+
+  subSet(0, [], digits, n, set, visited)
+  
+  return set.size;
+};
+
+function subSet(idx, arr, digits, n, set, visited){
+    
+    if(arr.length == 3){
+        
+        
+        let num = Number(arr.join(""))
+        
+        set.add(num);
+
+        return;
+    }
+    
+    for(let i =0; i<n; i++){
+        
+        if(visited[i] == true) continue;
+        if(arr.length == 0 && digits[i] == 0) continue;
+        if(arr.length == 2 && digits[i] % 2 !== 0) continue;
+        visited[i] = true;
+        arr.push(digits[i]);
+        subSet(i, arr, digits, n, set, visited);
+        arr.pop();
+        visited[i] = false
+    }
+}

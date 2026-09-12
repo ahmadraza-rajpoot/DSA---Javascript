@@ -1776,3 +1776,46 @@ while (j < nums.length) {
 
 //     return count
 // }
+
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var countSpecialIntegers = function(nums) {
+    let n = nums.length;
+    let map = {};
+
+    for(let i = 0; i<n; i++){
+        if(map[nums[i]] == undefined) map[nums[i]] = [];
+
+        map[nums[i]].push(i)
+    }
+
+   // console.log(map)
+    let ans = 0;
+    for(let key in map){
+
+        if(map[key].length >= 3){
+            if(isSpacedEq(map[key])){
+                ans++
+            }
+        }
+    }
+
+  //  console.log(ans)
+
+    return ans;
+};
+
+function isSpacedEq(arr){
+    let n = arr.length;
+    let a = arr[n-1];
+    let b = arr[n-2];
+    let spaced = a - b
+    for(let i = n - 3; i>=0; i--){
+        if(b - arr[i] !== spaced) return false;
+        b = arr[i]
+    }
+
+    return true;
+}

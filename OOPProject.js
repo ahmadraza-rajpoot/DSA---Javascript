@@ -114,4 +114,21 @@ const m2 = new Monster("WilSon", 4, 2);
 
 const game = new Game(p1, [m1,m2])
 
-game.start()
+// game.start()
+
+
+class Test{
+    #password = "123"
+
+    #changePass(pass){
+        this.#password = pass;
+    }
+
+    showPass(){
+        console.log(this.#password)
+    }
+}
+
+const pass = new Test();
+
+console.log(pass.password)

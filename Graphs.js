@@ -2526,5 +2526,51 @@ function isValid(i, j, n, m){
     return i>=0 && i<n && j>=0 && j<m
 }
 
+/**
+ * @param {number[][]} grid
+ * @param {number} health
+ * @return {boolean}
+ */
+var findSafeWalk = function (grid, health) {
+    let directions = [[0, 1], [0, -1], [1, 0], [-1, 0]]
+    let n = grid.length;
+    let m = grid[0].length;
+    let res = Array.from({length:n}, ()=> new Array(m).fill(Infinity));
+    res[0][0] = grid[0][0];
+
+    let q = [];
+    q.push([0,0]);
+
+    while(q.length){
+        let [i, j] = q.shift();
+
+        for(let dir of directions){
+            let i_ = i + dir[0];
+            let j_ = j + dir[1];
+
+            if(isSafe(i_, j_, n,m)){
+                
+
+                if(res[i][j] + grid[i_][j_] < res[i_][j_] ){
+
+                    res[i_][j_] = res[i][j] + grid[i_][j_];
+
+                    if(grid[i_][j_] == 0){
+                        q.unshift([i_, j_])
+                    }else{
+                        q.push([i_, j_])
+                    }
+                }
+            }
+        }
+    }
+    
+    return health - res[n-1][m-1] >=1
+};
+
+function isSafe(i, j, n, m){
+    return i>=0 && i<n && j>=0 && j<m
+}
+
 
 

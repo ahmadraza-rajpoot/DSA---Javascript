@@ -171,3 +171,78 @@ var findClosestElements = function(arr, k, x) {
 
    return arr.slice(l, l+k)
 };
+
+
+// Binary Search Implementation
+
+
+class Node{
+    constructor(val){
+        this.val = val;
+        this.left = null;
+        this.right = null;
+    }
+}
+
+   
+
+class BST{
+    constructor(){
+        this.root = null;
+    }
+
+
+    isEmpty(){
+        return this.root === null
+    }
+
+    insertNode(val){
+        let node = new Node(val)
+        if(this.root == null){
+            this.root = node;
+            return;
+        }
+
+        this.#addChild(this.root, node)
+    }
+
+    #addChild(root, node){
+        if(root.val > node.val){
+
+            if(root.left == null){
+                root.left = node;
+                
+            }else{
+                this.#addChild(root.left, node)
+            }
+
+        }else{
+            
+            if(root.right == null){
+                root.right = node;
+            }else{
+                this.#addChild(root.right, node)
+            }
+
+        }
+    }
+
+    preOrder(){
+        function traversal(root){
+            if(root == null) return;
+
+            console.log(root.val);
+            traversal(root.left);
+            traversal(root.right)
+        }
+
+        traversal(this.root)
+    }
+}
+
+const bst = new BST();
+
+bst.insertNode(3);
+bst.insertNode(2);
+bst.insertNode(10);
+bst.insertNode(30);

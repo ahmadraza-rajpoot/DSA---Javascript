@@ -238,6 +238,22 @@ class BST{
 
         traversal(this.root)
     }
+
+    search(val){
+        
+        function trav(root, val){
+            if(root == null) return false
+            if(root.val == val) return true
+
+            if(val < root.val){
+               return trav(root.left, val)
+            }else{
+               return trav(root.right, val)
+            }
+        }
+
+        return trav(this.root, val)
+    }
 }
 
 const bst = new BST();
@@ -246,3 +262,5 @@ bst.insertNode(3);
 bst.insertNode(2);
 bst.insertNode(10);
 bst.insertNode(30);
+let res = bst.search(30)
+console.log(res)

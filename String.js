@@ -664,3 +664,52 @@ var shortestBeautifulSubstring = function(s, k) {
 
     return best;
 };
+
+
+var findRepeatedDnaSequences = function(s) {
+    let n = s.length;
+    let K = 10;
+
+    if(n <= K) return []
+
+
+    let seen = new Set();
+    let result = new Set();
+
+    let map = {
+        A:1,
+        C:2,
+        G:3,
+        T:4
+    }
+    let x = K-1
+    let currHash = 0
+    for(let i = 0; i<K; i++){
+        let ch = s[i];
+        currHash += map[ch] * Math.pow(10,x-i)
+    }
+
+    seen.add(currHash)
+    
+    let i =0;
+    let j = K
+
+    while(j<n){
+        let ch = s[i]
+        currHash -= map[ch] * Math.pow(10, x);
+        currHash *= 10;
+        currHash += map[s[j]];
+
+        if(seen.has(currHash)){
+           
+            let seq = s.substring(i+1, j+1)
+            result.add(seq)
+        }
+
+        seen.add(currHash);
+        i++;
+        j++
+    }
+
+    return Array.from(result)
+};

@@ -1819,3 +1819,48 @@ function isSpacedEq(arr){
 
     return true;
 }
+
+
+//
+
+var totalFruit = function(fruits) {
+   let n = fruits.length;
+
+   let map = new Map();
+
+   let max = 0;
+
+   let i = 0;
+   let j = 0;
+    
+   while(j<n){
+        
+        let ch = fruits[j];
+
+        if(!map.has(ch)){
+            map.set(ch, 0)
+        }
+
+        map.set(ch, map.get(ch) + 1);
+
+        while(map.size > 2){
+            let c = fruits[i];
+            let count = map.get(c) - 1
+            
+
+            if(count == 0){
+                map.delete(c)
+            }else{
+                map.set(c, count)
+            }
+
+            i++
+        }
+
+        max = Math.max(max, j - i + 1);
+        j++
+   }
+
+
+   return max;
+};

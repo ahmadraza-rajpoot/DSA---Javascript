@@ -1864,3 +1864,41 @@ var totalFruit = function(fruits) {
 
    return max;
 };
+
+
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number[]}
+ */
+
+var resultArray = function(nums, k) {
+    const n = nums.length;
+
+    const result = new Array(k).fill(0);
+    let prevCount = new Array(k).fill(0);
+
+    for (let i = 0; i < n; i++) {
+
+     
+        const currCount = new Array(k).fill(0);
+
+        const currElementRemainder = nums[i] % k;
+        currCount[currElementRemainder]++;
+
+        for (let oldRem = 0; oldRem <= k - 1; oldRem++) {
+
+            const newRemain = (oldRem * nums[i]) % k;
+
+            currCount[newRemain] += prevCount[oldRem];
+        }
+
+        prevCount = currCount;
+
+        for (let x = 0; x <= k - 1; x++) {
+            result[x] += prevCount[x];
+        }
+    }
+
+    return result;
+};

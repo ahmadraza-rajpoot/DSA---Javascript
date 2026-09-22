@@ -1902,3 +1902,36 @@ var resultArray = function(nums, k) {
 
     return result;
 };
+
+/**
+ * @param {number[]} arr
+ * @param {number} k
+ * @param {number} threshold
+ * @return {number}
+ */
+var numOfSubarrays = function(arr, k, threshold) {
+    let n = arr.length;
+    let maxT = threshold * k;
+
+    let i = 0;
+    let sum = 0;
+    let count = 0;
+
+    while(i<k){
+        sum += arr[i];
+        i++
+    }
+
+    if(sum >= maxT) count++;
+
+    while(i<n){
+        sum += arr[i];
+        sum -= arr[i-k];
+
+        if(sum >= maxT) count++;
+
+        i++;
+    }
+
+    return count;
+};

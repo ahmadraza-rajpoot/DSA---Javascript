@@ -1935,3 +1935,35 @@ var numOfSubarrays = function(arr, k, threshold) {
 
     return count;
 };
+
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number}
+ */
+var maxFrequency = function(nums, k) {
+    let n = nums.length;
+    nums.sort((a,b) => a-b)
+   
+    let sum = 0;
+    let i = 0;
+    let j = 0;
+    let ans = 0;
+
+    while(j<n){
+        sum += nums[j];
+        let size = j - i + 1
+        let total = size * nums[j];
+
+        if(total - sum > k){
+            sum -= nums[i];
+            i++
+        }
+
+        ans = Math.max(ans, j-i+1);
+        j++
+
+    }
+
+    return ans
+};

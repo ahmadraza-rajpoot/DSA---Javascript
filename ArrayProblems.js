@@ -1967,3 +1967,29 @@ var maxFrequency = function(nums, k) {
 
     return ans
 };
+
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var smallestIndex = function(nums) {
+
+    for(let i = 0; i<nums.length; i++){
+        let sum = sumOfDigit(nums[i])
+        if(sum == i) return i;
+    }
+
+    return -1
+};
+
+function sumOfDigit(num){
+    let sum = 0;
+
+    while(num>0){
+        let dig = num%10
+        sum+=dig
+        num = Math.floor(num/10)
+    }
+
+    return sum
+}

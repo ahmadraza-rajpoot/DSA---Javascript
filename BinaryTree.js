@@ -736,3 +736,21 @@ var averageOfSubtree = function(root) {
 
     return result;
 };
+
+var preorderTraversal = function (root) {
+    if (root == null) return [];
+
+    let result = []
+    let stack = [root];
+
+    while (stack.length) {
+
+        let node = stack.pop();
+        result.push(node.val);
+
+        node.right && stack.push(node.right);
+        node.left  && stack.push(node.left);
+    }
+
+    return result;
+};

@@ -713,3 +713,52 @@ var findRepeatedDnaSequences = function(s) {
 
     return Array.from(result)
 };
+
+/**
+ * @param {string} s
+ * @param {string[][]} knowledge
+ * @return {string}
+ */
+var evaluate = function (s, knowledge) {
+    let n = s.length;
+    let map = {};
+
+    for (let info of knowledge) {
+
+        map[info[0]] = info[1]
+    }
+
+    let i = 0;
+    let result = ""
+    while (i < n) {
+
+        let ch = s[i];
+
+        if(ch === "("){
+            let [idx, value] = getValue(i+1, s, map)
+           
+            result += value;
+            i=idx
+        }else{
+            result += ch;
+            i++
+        }
+       
+    }
+
+    return result
+};
+
+function getValue(i, s, map){
+    let key = ""
+    while(s[i] !== ")"){
+        key += s[i];
+        i++
+    }
+    let val = map[key];
+
+    if(val == undefined) return [i+1, "?"]
+
+    return [i+1, val]
+    
+}

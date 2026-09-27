@@ -271,3 +271,54 @@ bString("", 3, "1");
 // }
 
 // bString("", 3, 2, 0, "0");
+
+/**
+ * @param {string} s
+ * @return {string}
+ */
+var reverseParentheses = function (s) {
+
+    let n = s.length;
+
+    function solve(i, s, n) {
+
+        let str = ""
+
+        while (i < n) {
+
+            if (s[i] == "(") {
+
+                let [j, newS] = solve(i + 1, s, n);
+                i = j;
+                str += newS
+
+            } else if (s[i] == ")") {
+                return [i + 1, rev(str)]
+            } else {
+                str += s[i];
+                i++
+            }
+        }
+
+        return str
+    }
+
+    return solve(0, s, n)
+};
+
+function rev(str) {
+    let arr = str.split("");
+
+    let i = 0;
+    let j = arr.length - 1;
+
+    while (i < j) {
+        let temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp
+        i++;
+        j--;
+    }
+
+    return arr.join("")
+}

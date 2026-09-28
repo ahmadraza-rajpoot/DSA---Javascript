@@ -505,8 +505,29 @@ let nums =String(n1)
 
 //console.log(mergeSort(nums))
 
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var maxDepth = function(s) {
+    let n = s.length;
+    let set = new Set();
+    set.add("(")
+    set.add(")")
 
+    let stack = [];
+    let max = 0;
+    for(let i =0; i<n; i++){
 
+        if(!set.has(s[i])) continue;
 
+        if(s[i] == "("){
+            stack.push("(")
+        }else{
+            max = Math.max(max, stack.length);
+            stack.pop()
+        }
+    }
 
-
+    return max;
+};

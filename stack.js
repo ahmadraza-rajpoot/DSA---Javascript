@@ -531,3 +531,54 @@ var maxDepth = function(s) {
 
     return max;
 };
+
+/**
+ * @param {character[][]} grid
+ * @return {boolean}
+ */
+var hasValidPath = function (grid) {
+    
+    let m = grid.length;
+    let n = grid[0].length;
+
+    if(grid[0][0] == ")" || grid[m-1][n-1] == "(") return false
+
+    if(m + (n-1) % 2 == 1) return false;
+
+    let directions = [[1, 0], [0, 1]]
+    let dp = Array.from({length:101}, ()=> Array.from({length:101}, ()=> new Array(201).fill(-1)))
+
+    function solve(i, j,openCount, grid) {
+
+        openCount += (grid[i][j] == "(")? 1 : -1
+
+        if(openCount < 0) return dp[i][j][openCount] = false;
+
+        if (i == m - 1 && j == n - 1){
+            
+            return dp[i][j][openCount] = openCount == 0
+        }
+
+        if(dp[i][j][openCount] !== -1) return dp[i][j][openCount]
+
+        for(let dir of directions){
+            let i_ = i + dir[0];
+            let j_ = j + dir[1];
+
+            if(isSave(i_, j_, m, n)){
+                if(solve(i_, j_,openCount, grid)){
+                     return dp[i][j][openCount] = true;
+                }
+            }
+        }
+
+        return dp[i][j][openCount] = false;
+    }
+
+   return solve(0,0,0,grid)
+
+};
+
+function  isSave(i, j, m, n){
+    return i>=0 && i<m && j>=0 && j<n
+}

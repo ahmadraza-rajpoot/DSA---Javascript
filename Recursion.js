@@ -322,3 +322,27 @@ function rev(str) {
 
     return arr.join("")
 }
+
+var generateParenthesis = function(n) {
+    let len = n * 2;
+    let result = []
+    function solve(s,len, open, close){
+
+        if(s.length == len){
+            result.push(s)
+            return;
+        }
+
+        if(open < n){
+            solve(s+"(", len, open+1, close);
+        }
+
+        if(close < open){
+            solve(s+")", len, open, close+1);
+        }
+    }
+
+    solve("", len, 0, 0)
+
+    return result;
+};

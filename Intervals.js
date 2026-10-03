@@ -63,3 +63,70 @@ var merge = function (intervals) {
 
     return result;
 }
+
+/**
+ * @param {number[][]} firstList
+ * @param {number[][]} secondList
+ * @return {number[][]}
+ */
+
+var intervalIntersection = function (firstList, secondList) {
+    let n = firstList.length;
+    let m = secondList.length;
+
+    let res = [];
+
+    let i = 0;
+    let j = 0;
+
+    while (i < n && j < m) {
+        let firstIntv = firstList[i];
+        let secondIntv = secondList[j];
+
+        if (isOverlap(firstIntv, secondIntv)) {
+            let interSec = new Array(2);
+            interSec[0] = Math.max(firstIntv[0], secondIntv[0]);
+            interSec[1] = Math.min(firstIntv[1], secondIntv[1]);
+
+            res.push(interSec);
+        }
+
+        if (firstIntv[1] < secondIntv[1]) {
+            i++
+        } else {
+            j++
+        }
+
+    }
+
+    return res
+};
+
+// var intervalIntersection = function(firstList, secondList) {
+
+//     let res = [];
+
+//     for(let i = 0; i<firstList.length; i++){
+
+//         let firstIntv = firstList[i];
+
+//         for(let j =0; j<secondList.length; j++){
+
+//             let secondIntv = secondList[j];
+
+//             if(isOverlap(firstIntv, secondIntv)){
+//                 let interSec = new Array(2);
+//                 interSec[0] = Math.max(firstIntv[0], secondIntv[0]);
+//                 interSec[1] = Math.min(firstIntv[1], secondIntv[1]);
+
+//                 res.push(interSec);
+//             }
+//         }
+//     }
+
+//     return res
+// };
+
+function isOverlap(intv1, intv2) {
+    return intv1[1] >= intv2[0] && intv1[0] <= intv2[1]
+}

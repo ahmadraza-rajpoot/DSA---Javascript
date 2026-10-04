@@ -130,3 +130,43 @@ var intervalIntersection = function (firstList, secondList) {
 function isOverlap(intv1, intv2) {
     return intv1[1] >= intv2[0] && intv1[0] <= intv2[1]
 }
+
+/**
+ * @param {number} days
+ * @param {number[][]} meetings
+ * @return {number}
+ */
+var countDays = function(days, meetings) {
+    let n = meetings.length;
+    meetings.sort((a,b) => a[0] - b[0]);
+    let mergeMeetings = [];
+
+    mergeMeetings.push(meetings[0]);
+
+    for(let i = 1; i<n; i++){
+        let prevIntv = mergeMeetings[mergeMeetings.length - 1];
+        let currIntv = meetings[i]
+
+        if(isOverlap(prevIntv, currIntv)){
+            prevIntv[1] = Math.max(currIntv[1], prevIntv[1])
+        }else{
+            mergeMeetings.push(currIntv)
+        }
+    }
+
+   // console.log(mergeMeetings)
+    let totalDays = 0;
+    for(let meeting of mergeMeetings){
+        totalDays += (meeting[1] - meeting[0]) + 1
+    }
+
+   // console.log(days - totalDays)
+
+    return days - totalDays
+};
+
+
+function isOverlap(intv1, intv2){
+
+    return intv1[1] >= intv2[0] && intv1[0] <= intv2[1]
+}

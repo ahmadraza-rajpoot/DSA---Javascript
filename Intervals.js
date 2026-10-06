@@ -170,3 +170,30 @@ function isOverlap(intv1, intv2){
 
     return intv1[1] >= intv2[0] && intv1[0] <= intv2[1]
 }
+
+
+// optimized approach for leetcode 3169
+var countDays = function(days, meetings) {
+    let n = meetings.length;
+    meetings.sort((a,b) => a[0] - b[0]);
+    
+    let maxEnd = meetings[0][1]
+    let gap = 0;
+    for(let i = 1; i<n; i++){
+
+        if(maxEnd < meetings[i][0]){
+            
+            gap += (meetings[i][0] - maxEnd) - 1;
+
+            maxEnd = meetings[i][1]
+        }
+
+        maxEnd = Math.max(maxEnd, meetings[i][1])
+    }
+
+    gap += meetings[0][0] - 1;
+
+    gap = (days + gap) - maxEnd;
+
+    return gap
+};

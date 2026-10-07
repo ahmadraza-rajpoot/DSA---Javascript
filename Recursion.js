@@ -346,3 +346,59 @@ var generateParenthesis = function(n) {
 
     return result;
 };
+
+
+/**
+ * @param {string} s
+ * @return {string[]}
+ */
+var removeInvalidParentheses = function (s) {
+
+    let n = s.length;
+    let set = new Set();
+    let maxLen = 0;
+    function solve(curr, i, op, s, n) {
+
+        if (i == n) {
+
+            if (op == 0) {
+                maxLen = Math.max(maxLen, curr.length)
+                set.add(curr)
+            }
+
+            return;
+        }
+
+        if (op < 0) {
+            return;
+        }
+
+        let ch = s[i];
+
+        if (/[a-z]/.test(ch)) {
+            solve(curr + ch, i + 1, op, s, n)
+        } else {
+
+            if (ch == "(") {
+                solve(curr + ch, i + 1, op + 1, s, n);
+                solve(curr, i + 1, op, s, n);
+            } else {
+                solve(curr + ch, i + 1, op - 1, s, n);
+                solve(curr, i + 1, op, s, n)
+            }
+
+        }
+    }
+
+    solve("", 0, 0, s, n)
+
+    let result = [];
+
+    for(let str of set){
+        if(str.length == maxLen){
+            result.push(str)
+        }
+    }
+
+    return result;
+};

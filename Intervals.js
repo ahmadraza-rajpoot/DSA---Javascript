@@ -197,3 +197,71 @@ var countDays = function(days, meetings) {
 
     return gap
 };
+
+/**
+ * @param {number[][]} intervals
+ * @return {number}
+ */
+var removeCoveredIntervals = function (intervals) {
+
+    let n = intervals.length;
+
+    intervals.sort((a, b) => {
+
+        if (a[0] == b[0]) return b[1] - a[1];
+
+        return a[0] - b[0]
+
+    })
+
+    let count = 1;
+    let maxEnd = intervals[0][1];
+
+    for(let i = 1; i<n; i++){
+        let curr = intervals[i];
+
+        if(maxEnd < curr[1]){
+            count++;
+            maxEnd = curr[1]
+        }
+    }
+
+    return count;
+};
+
+
+
+
+// var removeCoveredIntervals = function (intervals) {
+
+//     let n = intervals.length;
+
+//     intervals.sort((a, b) => {
+
+//         if (a[0] == b[0]) return b[1] - a[1];
+
+//         return a[0] - b[0]
+
+//     })
+
+//     let newIntervals = []
+
+//     newIntervals.push(intervals[0])
+
+//     for (let i = 1; i < n; i++) {
+
+//         let intv1 = intervals[i];
+//         let intv2 = newIntervals[newIntervals.length - 1]
+
+//         if (!isCovered(intv2, intv1)) {
+//             newIntervals.push(intv1)
+//         }
+//     }
+
+//     return newIntervals.length
+// };
+
+// function isCovered(intv1, intv2) {
+
+//     return intv1[0] <= intv2[0] && intv2[1] <= intv1[1]
+// }

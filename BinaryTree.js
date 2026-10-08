@@ -754,3 +754,20 @@ var preorderTraversal = function (root) {
 
     return result;
 };
+
+
+var maxDepth = function(root) {
+
+    function traverse(curr){
+        if(curr == null) return 0;
+
+        let leftDepth = traverse(curr.left);
+        let rightDepth = traverse(curr.right);
+
+        return Math.max(leftDepth, rightDepth) + 1
+    }
+
+
+    return traverse(root)  
+
+};

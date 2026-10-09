@@ -769,5 +769,4 @@ var maxDepth = function(root) {
 
 
     return traverse(root)  
-
 };

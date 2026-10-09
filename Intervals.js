@@ -265,3 +265,49 @@ var removeCoveredIntervals = function (intervals) {
 
 //     return intv1[0] <= intv2[0] && intv2[1] <= intv1[1]
 // }
+
+
+var MyCalendarTwo = function() {
+    
+    this.booking = [];
+    this.overLapingBooking = [];
+
+
+    this.isOverLap = function(intv1, intv2){
+        return intv1[1] >= intv2[0] && intv1[0] <= intv2[1]
+    }
+};
+
+/** 
+ * @param {number} startTime 
+ * @param {number} endTime
+ * @return {boolean}
+ */
+MyCalendarTwo.prototype.book = function(startTime, endTime) {
+    
+    if(this.booking.length == 0){
+        this.booking.push([startTime, endTime-1]);
+        return true;
+    }
+
+    for(let interval of this.overLapingBooking){
+        let intv1 = [startTime, endTime-1]
+        if(this.isOverLap(interval, intv1)){
+            return false;
+        }
+    }
+
+    for(let interval of this.booking){
+        let intv1 = [startTime, endTime-1]
+
+        if(this.isOverLap(interval, intv1)){
+            let start = Math.max(interval[0], startTime);
+            let end = Math.min(interval[1], endTime-1);
+            this.overLapingBooking.push([start, end])
+        }
+    }
+
+    this.booking.push([startTime, endTime-1]);
+    return true;
+};
+

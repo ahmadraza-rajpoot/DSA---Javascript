@@ -1,56 +1,117 @@
+
 class Node{
-  constructor(val=null){
+  constructor(key=null, val=null){
+    this.key = key;
     this.val = val;
     this.left = null;
     this.right = null;
   }
 }
 
+class TreeMap{
 
-class BST{
-  
   constructor(){
-    this.root = null
+    this.root = null;
   }
 
-  add(val){
-    let node = new Node(val)
+  put(key, val){
+    let node = new Node(key, val);
 
     if(this.root == null){
-      this.root = node
+      this.root = node;
       return
     }
-    
-    function solve(root, node){
 
-      if(node.val < root.val){
-         if(root.left === null){
-           root.left = node
-         }else{
-           solve(root.left, node)
-         }
+    function add(root, node){
+
+      if(node.key == root.key){
+        root.val = node.val
+      }
+      else if(node.key < root.key){
+        if(root.left == null){
+          root.left = node;
+        }else{
+          add(root.left, node)
+        }
       }else{
 
         if(root.right == null){
-          root.right = node
+          root.right = node;
         }else{
-          solve(root.right, node)
+          add(root.right, node)
         }
-      }
-        
+
+      } 
     }
 
-    solve(this.root, node)
-    
+    add(this.root, node);
   }
 
-  
+  get(key){
+
+    function traverse(root){
+
+      if(root === null) return undefined;
+      
+      if(root.key === key){
+        return root.val;
+      } 
+      else if(key < root.key){
+       return traverse(root.left)
+      }else{
+        return traverse(root.right)
+      }
+      
+    }
+
+    return traverse(this.root)
+  }
+
+  has(key){
+    function traverse(root){
+      if(root === null) return false;
+
+      if(root.key === key ){
+        return true;
+      }else if (key < root.key){
+        return traverse(root.left)
+      }else{
+        return traverse(root.right)
+      }
+    }
+
+    return traverse(this.root)
+  }
+
+  traverse(){
+
+    function inOrder(root){
+      if(root == null) return;
+      inOrder(root.left);
+      console.log(root.key)
+      inOrder(root.right)
+    }
+
+    
+   inOrder(this.root)
+
+  }
+
+
 }
 
 
-const bst = new BST()
-bst.add(1)
-bst.add(2)
-bst.add(3)
+const treeMap = new TreeMap()
 
-console.log(bst)
+treeMap.put(1,"one")
+treeMap.put(0, "zero")
+treeMap.put(2, "Two")
+treeMap.put(1,"again")
+treeMap.put(5,"working")
+
+let res = treeMap.has(1)
+
+console.log(res)
+
+//treeMap.traverse()
+console.log(treeMap)

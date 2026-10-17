@@ -27,3 +27,25 @@ function buildTree(i, l, r){
 
 buildTree(0, 0, n-1)
 console.log(segmentTree)
+
+
+
+function updateTree(idx, val, i, l , r){
+
+  if(l == r){
+    segmentTree[i] = val;
+    return;
+  }
+  let mid = Math.floor((l + r)/ 2);
+
+  if(idx <= mid){
+    updateTree(idx, val, (2*i+1), l, mid )
+  }else{
+    updateTree(idx, val, (2*i+2), mid+1, r)
+  }
+
+  segmentTree[i] = segmentTree[2*i+1] + segmentTree[2*i+2]
+}
+
+
+updateTree(1, 10, 0, 0, n-1)

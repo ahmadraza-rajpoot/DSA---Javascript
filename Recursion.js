@@ -403,3 +403,51 @@ var removeInvalidParentheses = function (s) {
     return result;
 };
 
+
+var numOfWays = function(nums) {
+    const MOD = 1000000007n;
+    const n = nums.length;
+
+    const PT = Array.from({ length: n + 1 }, () => []);
+
+    for (let i = 0; i <= n; i++) {
+        PT[i] = Array(i + 1).fill(1n);
+
+        for (let j = 1; j < i; j++) {
+            PT[i][j] =
+                (PT[i - 1][j - 1] + PT[i - 1][j]) % MOD;
+        }
+    }
+
+    function solve(nums) {
+        const m = nums.length;
+
+        if (m < 3) {
+            return 1n;
+        }
+
+        const root = nums[0];
+
+        const left = [];
+        const right = [];
+
+        for (let i = 1; i < m; i++) {
+            if (nums[i] < root) {
+                left.push(nums[i]);
+            } else {
+                right.push(nums[i]);
+            }
+        }
+
+        const leftWays = solve(left);
+        const rightWays = solve(right);
+
+        const ways = (leftWays * rightWays) % MOD;
+
+        return (ways * PT[m - 1][left.length]) % MOD;
+    }
+
+    const result = (solve(nums) - 1n + MOD) % MOD;
+
+    return Number(result);
+};

@@ -762,3 +762,80 @@ function getValue(i, s, map){
     return [i+1, val]
     
 }
+
+
+// KMP algorithm in modular form
+
+
+function KMP(s, pattern){
+  let lps = calculateLPS(pattern);
+  return searchPattern(s, pattern, lps)
+}
+
+function calculateLPS(pattern){
+  let n = pattern.length;
+  let lps = new Array(n);
+  lps[0] = 0;
+
+  let i = 1;
+  let len = 0;
+
+  while(i<n){
+    if(pattern[i] === pattern[len]){
+      len++;
+      lps[i] = len;
+      i++
+    }else{
+      while(len > 0 && pattern[i] !== pattern[len]){
+        len--
+      }
+
+      lps[i] = len;
+      i++
+    }
+  }
+
+  return lps
+}
+function searchPattern(s, pattern, lps){
+  let N = s.length;
+  let M = pattern.length;
+  let result = [];
+  
+
+  let i = 0;
+  let j = 0;
+
+  while(i<N){
+
+    if(s[i] === pattern[j]){
+      i++;
+      j++;
+
+      if(j === M){
+        result.push(i - j);
+        j = lps[j-1]
+      }
+    }else{
+      if(j === 0){
+        i++
+      }else{
+        j = lps[j-1];
+      }
+    }
+  }
+
+  return result;
+}
+
+
+// let s = ["a","b","a","b","a","c","a","b","a"];
+// let pattern  = ["a","b","a"];
+
+
+// let result = KMP(s, pattern)
+
+// console.log(result);
+
+
+//------------------END KMP--------------------------//

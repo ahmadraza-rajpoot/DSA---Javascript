@@ -51,19 +51,21 @@ function updateTree(idx, val, i, l , r){
 updateTree(1, 10, 0, 0, n-1)
 
 
-function query(s, e, i, l, r){
 
-  if(e < l || s > r){
-    return 0
+function searchTree(s, e, i, l, r){
+
+  if(e < l || r < s){
+    return 0;
   }
 
-  if (l>=s && r<=e) {
-      return segmentTree[i];
+  if (s <= l && r <= e) {
+    return segmentTree[i];
   }
-  
+
   let mid = Math.floor((l + r)/2);
-  
-  return query(s, e, 2*i+1, l, mid) + query(s, e, 2*i+2, mid+1, r)
+
+  return searchTree(s, e, i*2+1, l, mid) +  searchTree(s, e, i*2+2, mid+1, r);
 }
 
-let res = query(1,3, 0, 0, n-1)
+
+let res = searchTree(1,3, 0, 0, n-1)

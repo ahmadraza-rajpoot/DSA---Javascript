@@ -826,3 +826,144 @@ var winnerSquareGame = function(n) {
 
     return dp[n];
 };
+
+/**
+ * @param {number[]} nums
+ * @param {number} x
+ * @param {number} k
+ * @return {number}
+ */
+
+
+var minOperations = function(nums, x, k) {
+    const n = nums.length;
+
+    // Coordinate compression
+    const sorted = [...new Set([...nums].sort((a, b) => a - b))];
+    const m = sorted.length;
+
+    const index = new Map();
+    for (let i = 0; i < m; i++) {
+        index.set(sorted[i], i + 1);
+    }
+
+    
+    class Fenwick {
+        constructor(size) {
+            this.size = size;
+            this.tree = new Float64Array(size + 1);
+        }
+
+        add(i, val) {
+            while (i <= this.size) {
+                this.tree[i] += val;
+                i += i & -i;
+            }
+        }
+
+        
+        sum(i) {
+            let result = 0;
+
+            while (i > 0) {
+                result += this.tree[i];
+                i -= i & -i;
+            }
+
+            return result;
+        }
+
+        
+        kth(k) {
+            let idx = 0;
+            let bit = 1;
+
+            while (bit * 2 <= this.size) {
+                bit *= 2;
+            }
+
+            for (; bit > 0; bit >>= 1) {
+                const next = idx + bit;
+
+                if (next <= this.size && this.tree[next] < k) {
+                    idx = next;
+                    k -= this.tree[next];
+                }
+            }
+
+            return idx + 1;
+        }
+    }
+
+    const countBIT = new Fenwick(m);
+    const sumBIT = new Fenwick(m);
+
+    let totalSum = 0;
+
+    
+    function add(val, delta) {
+        const pos = index.get(val);
+
+        countBIT.add(pos, delta);
+        sumBIT.add(pos, val * delta);
+        totalSum += val * delta;
+    }
+
+    
+    function getCost() {
+        const medianPos = countBIT.kth(Math.floor((x + 1) / 2));
+        const median = sorted[medianPos - 1];
+
+        const leftCount = countBIT.sum(medianPos);
+        const leftSum = sumBIT.sum(medianPos);
+
+        const rightCount = x - leftCount;
+        const rightSum = totalSum - leftSum;
+
+        const leftCost = median * leftCount - leftSum;
+        const rightCost = rightSum - median * rightCount;
+
+        return leftCost + rightCost;
+    }
+
+    
+    const costs = [];
+
+    for (let i = 0; i < x; i++) {
+        add(nums[i], 1);
+    }
+
+    costs.push(getCost());
+
+    for (let i = x; i < n; i++) {
+        add(nums[i - x], -1);
+        add(nums[i], 1);
+
+        costs.push(getCost());
+    }
+
+    
+    let prev = new Float64Array(n + 1);
+    const INF = Number.MAX_SAFE_INTEGER;
+
+    for (let j = 1; j <= k; j++) {
+        const curr = new Float64Array(n + 1);
+        curr.fill(INF);
+
+        for (let i = 1; i <= n; i++) {
+            
+            curr[i] = curr[i - 1];
+
+        
+            if (i >= x && prev[i - x] !== INF) {
+                const cost = prev[i - x] + costs[i - x];
+
+                curr[i] = Math.min(curr[i], cost);
+            }
+        }
+
+        prev = curr;
+    }
+
+    return prev[n];
+};

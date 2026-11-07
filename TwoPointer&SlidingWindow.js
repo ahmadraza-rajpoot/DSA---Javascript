@@ -309,3 +309,29 @@ var getCommon = function(nums1, nums2) {
 
     return -1
 };
+
+
+var countValidSubstrings = function(s) {
+    
+    let n = s.length;
+    let left = 0;
+    let count = 0;
+
+    for (let right = 0; right < n; right++) {
+
+       
+        if (
+            right >= 2 &&
+            s[right - 2] === 'a' &&
+            s[right - 1] === 'b' &&
+            s[right] === 'c'
+        ) {
+            left = right - 1;
+        }
+
+      
+        count += right - left + 1;
+    }
+
+    return count;
+};©leetcode

@@ -2034,3 +2034,51 @@ var minOperations = function(nums) {
 
     return ans === Infinity ? -1 : ans;
 };
+
+
+
+var countServers = function(grid) {
+    let n = grid.length;
+    let m = grid[0].length;
+
+    let count = 0;
+    for(let i = 0; i<n; i++){
+        for(let j = 0; j<m; j++){
+            if(grid[i][j] ===1){
+                let isServer = checkCol(i, j, n, grid)
+
+                if(isServer === false){
+                    isServer = checkRow(i,j,m,grid)
+                }
+
+                if(isServer){
+                    count++
+                }
+            }
+        }
+    }
+
+    return count
+};
+
+function checkCol(i, j, n, grid){
+
+    for(let row = 0; row<n; row++){
+        if(row !== i && grid[row][j] == 1){
+            return true;
+        }
+    }
+
+    return false;
+}
+
+function checkRow(i, j, m, grid){
+
+    for(let col = 0; col<m; col++){
+        if(col !== j && grid[i][col] == 1){
+            return true
+        }
+    }
+
+    return false;
+}

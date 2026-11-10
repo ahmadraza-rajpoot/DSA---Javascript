@@ -20,7 +20,52 @@ var fib = function(n) {
     return dp[n]
 };
 
+/**
+ * @param {number} n
+ * @param {number[]} costs
+ * @return {number}
+ */
+var climbStairs = function (n, costs) {
+    let dp = new Array(n).fill(-1);
 
+    function solve(i) {
+
+        if (i === n) return 0;
+
+
+        if (dp[i] !== -1) return dp[i];
+
+        let ans = Infinity;
+
+
+        if (i + 1 <= n) {
+            ans = Math.min(
+                ans,
+                costs[i] + 1 ** 2 + solve(i + 1)
+            );
+        }
+
+
+        if (i + 2 <= n) {
+            ans = Math.min(
+                ans,
+                costs[i + 1] + 2 ** 2 + solve(i + 2)
+            );
+        }
+
+
+        if (i + 3 <= n) {
+            ans = Math.min(
+                ans,
+                costs[i + 2] + 3 ** 2 + solve(i + 3)
+            );
+        }
+
+        return dp[i] = ans;
+    }
+
+    return solve(0);
+};
 
 // var fib = function(n) {
 //     if(n<=1) return n;

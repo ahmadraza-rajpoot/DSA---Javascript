@@ -2082,3 +2082,97 @@ function checkRow(i, j, m, grid){
 
     return false;
 }
+
+
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var longestMonotonicSubarray = function (nums) {
+    let n = nums.length;
+    let maxLen = 1;
+    let inc = 1;
+    let dec = 1;
+    
+    for(let i = 1; i<n; i++){
+        if(nums[i] < nums[i-1]){
+            dec++;
+            inc = 1;
+        }else if(nums[i] > nums[i-1]){
+            inc++;
+            dec = 1;
+        }else{
+            dec = 1;
+            inc = 1;
+        }
+
+        maxLen = Math.max(maxLen, inc, dec)
+    }
+
+    return maxLen;
+};
+
+
+
+// var longestMonotonicSubarray = function (nums) {
+//     let n = nums.length;
+//     let maxLen = 1;
+
+//     let i = 0;
+
+//     while (i < n - 1) {
+//         let len = 1
+//         while (nums[i] < nums[i + 1] && i < n - 1) {
+//             len++
+//             i++
+//         }
+//         maxLen = Math.max(maxLen, len)
+
+//         i++
+//     }
+
+//     i = 0
+//     while (i < n - 1) {
+//         let len = 1
+//         while (nums[i] > nums[i + 1] && i < n - 1) {
+//             len++
+//             i++
+//         }
+//         maxLen = Math.max(maxLen, len)
+
+//         i++
+//     }
+
+//     return maxLen
+// };
+
+
+
+// var longestMonotonicSubarray = function(nums) {
+//     let n = nums.length;
+//     let maxLen = 1;
+
+//     for(let i =0;i<n-1; i++){
+//         let count= 1;
+
+//         while(nums[i] < nums[i+1] && i<n-1){
+//             count++
+//             i++
+//         }
+
+//         maxLen = Math.max(count, maxLen)
+//     }
+
+//     for(let i = 0; i<n-1; i++){
+//         let len = 1;
+
+//         while(nums[i] > nums[i+1] && i<n-1){
+//             len++
+//             i++
+//         }
+
+//         maxLen = Math.max(maxLen, len)
+//     }
+
+//     return maxLen;
+// };

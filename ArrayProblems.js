@@ -137,6 +137,55 @@ var moveZeroes = function(nums) {
     }
 };
 
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number}
+ */
+
+var countNonDecreasingSubarrays = function (nums, k) {
+    const n = nums.length;
+    let ans = 0;
+    let operations = 0;
+
+    const q = new MaxPriorityQueue((item) => item.val);
+
+    const cnt = Array.from({ length: n }, () => []);
+    const pos = new Array(n).fill(n);
+    const st = [];
+
+    let left = 0;
+    for (let right = 0; right < n; right++) {
+        while (st.length > 0 && nums[right] >= nums[st[st.length - 1]]) {
+            pos[st[st.length - 1]] = right;
+            st.pop();
+        }
+        if (st.length > 0) {
+            cnt[st[st.length - 1]].push(right);
+        }
+        st.push(right);
+
+        q.enqueue({ val: nums[right], idx: right });
+        operations += Math.max(0, q.front().val - nums[right]);
+
+        while (operations > k) {
+            for (const i of cnt[left]) {
+                operations -=
+                    (nums[left] - nums[i]) * (Math.min(pos[i], right + 1) - i);
+            }
+            left++;
+        }
+
+        while (!q.isEmpty() && q.front().idx < left) {
+            q.dequeue();
+        }
+
+        ans += right - left + 1;
+    }
+
+    return ans;
+};
+
 
 // find the missing number
 

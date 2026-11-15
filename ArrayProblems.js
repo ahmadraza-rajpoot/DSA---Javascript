@@ -44,6 +44,37 @@ var removeElement = function(nums, val) {
     return x
 };
 
+
+/**
+ * @param {number[]} arr
+ * @return {number}
+ */
+var numOfSubarrays = function (arr) {
+    let n = arr.length;
+    let M = 1e9+7
+    let prefix = []
+    prefix[0] = arr[0];
+
+    for (let i = 1; i < n; i++) {
+        prefix[i] = prefix[i-1] + arr[i]
+    }
+    // odd + even = odd,      even + odd = odd
+    let odd = 0;
+    let even = 1;
+    let count = 0;
+
+    for(let i = 0; i<n; i++){
+        if(prefix[i] % 2 == 0){
+            count = (count + odd) % M;
+            even++
+        }else{
+            count = (count + even) % M;
+            odd++
+        }
+    }
+
+    return count;
+};
 // Reverse String
 var reverseString = function(s) {
     sCopy = [...s];

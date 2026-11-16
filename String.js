@@ -59,6 +59,36 @@ var largestOddNumber = function(num) {
     return ""
 };
 
+/**
+ * @param {string} s
+ * @param {number} k
+ * @return {string}
+ */
+var digitSum = function (s, k) {
+
+    while (s.length > k) {
+        let curr = ""
+        for (let i = 0; i < s.length; i = k + i) {
+            
+            curr += dSum(s.slice(i, k + i))
+            
+        }
+
+        s = curr;
+    }
+
+    return s;
+};
+
+function dSum(nums) {
+    let sum = 0;
+
+    for (let digit of nums) {
+        sum += Number(digit);
+    }
+
+    return sum;
+}
 
 /**
  * @param {string[]} strs

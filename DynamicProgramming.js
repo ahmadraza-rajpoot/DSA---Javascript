@@ -20,6 +20,86 @@ var fib = function(n) {
     return dp[n]
 };
 
+
+var minimumChanges = function(s, k) {
+    let n = s.length;
+    let str = s;
+
+    let costMemo = Array.from(
+        { length: n + 1 },
+        () => Array(n + 1).fill(Infinity)
+    );
+
+    function getCost(i, j) {
+        let len = j - i + 1;
+        let minCost = Infinity;
+
+        for (let d = 1; d < len; d++) {
+            if (len % d !== 0)
+                continue;
+
+            let cost = 0;
+
+            for (let group = 0; group < d; group++) {
+                let l = i + group;
+                let r = l + (len / d - 1) * d;
+
+                while (l < r) {
+                    if (str[l] !== str[r])
+                        cost++;
+
+                    l += d;
+                    r -= d;
+                }
+            }
+
+            minCost = Math.min(minCost, cost);
+        }
+
+        return minCost;
+    }
+
+    // Precompute costs
+    for (let i = 0; i < n; i++) {
+        for (let j = i + 1; j < n; j++) {
+            costMemo[i][j] = getCost(i, j);
+        }
+    }
+
+    let memo = Array.from(
+        { length: n + 1 },
+        () => Array(k + 1).fill(Infinity)
+    );
+
+    memo[n][0] = 0;
+
+    // Bottom-up DP
+    for (let start = n; start >= 0; start--) {
+        for (let pieces = 1; pieces <= k; pieces++) {
+            if (start + 2 * pieces > n)
+                continue;
+
+            let result = Infinity;
+
+            for (let end = start + 1; end < n; end++) {
+                let remainCost = memo[end + 1][pieces - 1];
+
+                if (remainCost === Infinity)
+                    continue;
+
+                result = Math.min(
+                    result,
+                    costMemo[start][end] + remainCost
+                );
+            }
+
+            memo[start][pieces] = result;
+        }
+    }
+
+    return memo[0][k];
+};
+
 /**
  * @param {number} n
  * @param {number[]} costs

@@ -22,6 +22,27 @@ var balancedStringSplit = function(s) {
     return resCount;
 };
 
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var minChanges = function (s) {
+
+    let n = s.length;
+
+    let i = 0;
+    let count = 0;
+    while (i < n - 1) {
+
+        if (s[i] != s[i + 1]) {
+            count++
+        }
+        i = i + 2
+    }
+
+    return count;
+};
+
 // Valid Palidrom
 
 /**

@@ -30,6 +30,19 @@ var minimumSumSubarray = function(nums, l, r) {
 
     return ans;
 };
+
+var minimizeSum = function(nums) {
+    
+    let n = nums.length;
+
+    nums.sort((a,b) => a-b)
+    
+    let case1 = nums[n-2] - nums[1];
+    let case2 = nums[n-3] - nums[0];
+    let case3 = nums[n-1] - nums[2];
+
+    return Math.min(case1, case2, case3)
+};
 // 27. Remove Element
 var removeElement = function(nums, val) {
 

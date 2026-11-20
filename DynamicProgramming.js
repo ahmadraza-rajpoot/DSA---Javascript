@@ -101,6 +101,80 @@ var minimumChanges = function(s, k) {
 };
 
 /**
+ * @param {number[]} nums
+ * @return {number}
+ */
+
+var maxSelectedElements = function(nums) {
+    const n = nums.length;
+    nums.sort((a, b) => a - b);
+
+    const memo = Array.from({ length: n + 1 }, () => 
+        Array(2).fill(-1)
+    );
+
+    function findMethod(start, target) {
+        let left = start;
+        let right = n - 1;
+
+        while (left <= right) {
+            const mid = Math.floor(left + (right - left) / 2);
+
+            if (nums[mid] < target) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+
+        if (left < n && nums[left] === target) {
+            return left;
+        }
+
+        return -1;
+    }
+
+    function solve(i, inc) {
+        if (memo[i][inc] !== -1) {
+            return memo[i][inc];
+        }
+
+        const currVal = nums[i] + inc;
+        let len = 1;
+
+    
+        let j = findMethod(i + 1, currVal + 1);
+
+        if (j !== -1) {
+            len = Math.max(len, 1 + solve(j, 0));
+        }
+
+   
+        j = findMethod(i + 1, currVal);
+
+        if (j !== -1) {
+            len = Math.max(len, 1 + solve(j, 1));
+        }
+
+        return memo[i][inc] = len;
+    }
+
+    let result = 1;
+
+    for (let i = 0; i < n; i++) {
+        result = Math.max(
+            result,
+            solve(i, 0),
+            solve(i, 1)
+        );
+    }
+
+    return result;
+};
+
+
+
+/**
  * @param {number} n
  * @param {number[]} costs
  * @return {number}

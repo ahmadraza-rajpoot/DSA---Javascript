@@ -230,6 +230,52 @@ function bString(s, n, prev){
 }
 bString("",3,"1")
 
+
+var findSubtreeSizes = function(parent, s) {
+    const n = parent.length;
+
+    const adj = Array.from({ length: n }, () => []);
+    const resultSize = new Array(n).fill(1);
+    const last = new Array(26).fill(-1);
+
+    for (let i = 1; i < n; i++) {
+        const u = parent[i];
+        const v = i;
+
+        adj[u].push(v);
+    }
+
+    function dfs(currNode) {
+        const c = s.charCodeAt(currNode) - 97;
+
+        const nearestAncestor = last[c];
+
+        last[c] = currNode;
+
+        for (const child of adj[currNode]) {
+            dfs(child);
+        }
+
+        last[c] = nearestAncestor;
+
+        if (currNode !== 0) {
+            let newParent = parent[currNode];
+
+            if (nearestAncestor !== -1) {
+                newParent = nearestAncestor;
+            }
+
+            parent[currNode] = newParent;
+
+            resultSize[newParent] += resultSize[currNode];
+        }
+    }
+
+    dfs(0);
+
+    return resultSize;
+};
+
 function bString(s, n, prev) {
     if (s.length === n) {
         console.log(s);

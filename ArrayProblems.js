@@ -57,6 +57,26 @@ var removeElement = function(nums, val) {
     return x
 };
 
+/**
+ * @param {string} s
+ * @return {boolean}
+ */
+var checkString = function(s) {
+  let seenB = false;
+
+  for(let ch  of s){
+    if(ch === "b"){
+        seenB = true;
+    }
+
+    if(ch === "a" && seenB == true){
+        return false
+    }
+  }  
+
+  return true;
+};
+
 
 /**
  * @param {number[]} arr

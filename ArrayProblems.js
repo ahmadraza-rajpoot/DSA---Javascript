@@ -151,6 +151,72 @@ let st = ["H","a","n","n","a","h"]
 //     right--
 // }
 
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var maxLength = function (nums) {
+    let n = nums.length;
+    let max = -Infinity;
+    for (let i = 0; i < n; i++) {
+        for (let j = i; j < n; j++) {
+            let subArray = nums.slice(i, j + 1)
+            let prod = findProduct(subArray);
+            let gcd = findArrayGCD(subArray);
+            let lcm = findArrayLCM(subArray);
+
+            if (prod === gcd * lcm) {
+
+                max = Math.max(max, subArray.length)
+            }
+        }
+    }
+
+    return max;
+};
+
+function findProduct(nums) {
+    let prod = 1;
+
+    for (let num of nums) {
+        prod *= num;
+    }
+
+    return prod
+}
+
+function lcm(a, b) {
+    return Math.abs((a / gcd(a, b)) * b);
+}
+
+function findArrayLCM(nums) {
+    let result = nums[0];
+
+    for (let i = 1; i < nums.length; i++) {
+        result = lcm(result, nums[i]);
+    }
+
+    return result;
+}
+
+function gcd(a, b) {
+    while (b !== 0) {
+        [a, b] = [b, a % b];
+    }
+
+    return a;
+}
+
+function findArrayGCD(nums) {
+    let result = nums[0];
+
+    for (let i = 1; i < nums.length; i++) {
+        result = gcd(result, nums[i]);
+    }
+
+    return result;
+}
+
 
 var reverseString = function(s) {
     let left = 0;

@@ -255,6 +255,61 @@ var canCompleteCircuit = function(gas, cost) {
     return totalGain < 0? -1: ans
 };
 
+
+var maximumSaleItems = function (items, budget) {
+    const n = items.length;
+
+    const benefits = Array(n).fill(0);
+
+    for (let i = 0; i < n; i++) {
+        for (let j = 0; j < n; j++) {
+            if (i !== j && items[j][0] % items[i][0] === 0) {
+                benefits[i]++;
+            }
+        }
+    }
+
+    const NEG_INF = -Infinity;
+    let dp = Array(budget + 1).fill(NEG_INF);
+    dp[0] = 0;
+
+    for (let i = 0; i < n; i++) {
+        const price = items[i][1];
+        const benefit = benefits[i];
+
+        if (price > budget) continue;
+
+        const next = dp.slice();
+
+        for (let r = 0; r < price && r <= budget; r++) {
+            let best = NEG_INF;
+            let t = 0;
+
+            for (let cost = r; cost <= budget; cost += price, t++) {
+
+                if (t >= 1) {
+                    const previousCost = cost - price;
+
+                    if (dp[previousCost] !== NEG_INF) {
+                        best = Math.max(best, dp[previousCost] - (t - 1));
+                    }
+                }
+
+                if (best !== NEG_INF) {
+                    next[cost] = Math.max(
+                        next[cost],
+                        benefit + t + best
+                    );
+                }
+            }
+        }
+
+        dp = next;
+    }
+
+    return Math.max(...dp);
+};
+
 //
 
 /**

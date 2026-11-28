@@ -196,6 +196,52 @@ var leastInterval = function(arr, n) {
     return Math.max(cycles, arr.length)
 };
 
+
+var maximumSaleItems = function (items, budget) {
+    const n = items.length;
+
+    const freq = Array(n + 1).fill(0);
+    let cheapestPrice = Infinity;
+
+    for (const [factor, price] of items) {
+        freq[factor]++;
+        cheapestPrice = Math.min(cheapestPrice, price);
+    }
+
+    const factorSum = Array(n + 1).fill(0);
+
+    for (let f = 1; f <= n; f++) {
+        for (let k = f; k <= n; k += f) {
+            factorSum[f] += freq[k];
+        }
+    }
+
+    const units = [];
+
+    for (const [factor, price] of items) {
+        const count = factorSum[factor] - 1;
+
+        if (count > 0 && price < 2 * cheapestPrice) {
+            units.push([price, count]);
+        }
+    }
+
+    units.sort((a, b) => a[0] - b[0]);
+
+    let result = 0;
+
+    for (const [price, factorCount] of units) {
+        const k = Math.min(factorCount, Math.floor(budget / price));
+
+        budget -= k * price;
+        result += 2 * k;
+    }
+
+    result += Math.floor(budget / cheapestPrice);
+
+    return result;
+};
+
 //
 
 /**
